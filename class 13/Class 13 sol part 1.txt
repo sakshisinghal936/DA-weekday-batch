@@ -1,0 +1,52 @@
+1. What is the total salary of all employees in each department and salaries should be in increasing order within department?
+
+SELECT 
+    name, 
+    department, 
+    salary, 
+    SUM(salary) OVER (
+        PARTITION BY department 
+        ORDER BY salary 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS total_department_salary
+FROM employees;
+
+2. What is the cumulative salary (running total) of employees in each department, ordered by salary?
+
+SELECT 
+    name, 
+    department, 
+    salary, 
+    SUM(salary) OVER (
+        PARTITION BY department 
+        ORDER BY salary 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS cumulative_salary
+FROM employees;
+
+
+3. What is the forward-looking cumulative salary for employees in each department?
+
+SELECT 
+    name, 
+    department, 
+    salary, 
+    SUM(salary) OVER (
+        PARTITION BY department 
+        ORDER BY salary 
+        ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+    ) AS forward_cumulative_salary
+FROM employees;
+
+4. What is the average salary of employees within a 1-row range (1 preceding and 1 following) for each department?
+
+SELECT 
+    name, 
+    department, 
+    salary, 
+    AVG(salary) OVER (
+        PARTITION BY department 
+        ORDER BY salary 
+        ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
+    ) AS avg_salary_range
+FROM employees;
