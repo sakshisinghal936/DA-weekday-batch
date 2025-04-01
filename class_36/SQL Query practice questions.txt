@@ -1,0 +1,10 @@
+-- 1. Find the top 5 districts with the highest accident count each year
+-- 2. Identify the peak accident time slots in urban vs. rural areas
+-- 3. Find accident hotspots where more than 5 accidents occurred at the same latitude/longitude
+-- 4. Calculate cumulative accidents over time for trend analysis
+-- 5. Detect anomalies: Find accidents where the number of casualties is significantly higher than the average
+-- 6. Find the police force handling the highest number of severe accident
+-- 7. Find the top 3 vehicle types involved in accidents
+-- 8. Find the average number of vehicles involved per accident by road type
+-- 9. Identify months with the highest accident rates in different weather condition
+-- 10. Find locations where accidents consistently occur every year

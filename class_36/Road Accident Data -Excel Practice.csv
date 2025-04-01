@@ -1,0 +1,13 @@
+Excel Questions Covering Various Topics
+
+
+"Question: Given an accident dataset in Excel, how would you calculate the total number of accidents that occurred in 2023 using a formula?"
+Question: How can you highlight all accidents with a severity of 1 (most severe) in red?
+Question: How would you create a pivot table to display the total number of accidents per year and filter them based on weather conditions?
+"Question: If the Time column contains values like 13:45, how would you extract only the hour value into another column?"
+Question: How can you create a dropdown list for Road Type so that users can only select from predefined values?
+Question: How would you create a column that flags accidents as “High Risk” if the speed limit is greater than 60 and weather conditions are foggy?
+Question: How can you create a bar chart that shows the number of accidents per month?
+Question: Which formula can be used to find the most frequently occurring Road Type?
+Question: How can you filter the dataset to show only accidents that occurred on weekends?
+

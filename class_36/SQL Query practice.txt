@@ -1,0 +1,71 @@
+-- 1. Find the top 5 districts with the highest accident count each year
+WITH RankedAccidents AS (
+    SELECT 
+        Local_Authority_(District), 
+        Year, 
+        COUNT(*) AS Total_Accidents,
+        RANK() OVER (PARTITION BY Year ORDER BY COUNT(*) DESC) AS Rank
+    FROM accident_data
+    GROUP BY Local_Authority_(District), Year
+)
+SELECT * FROM RankedAccidents WHERE Rank <= 5;
+
+-- 2. Identify the peak accident time slots in urban vs. rural areas
+SELECT 
+    Urban_or_Rural_Area, 
+    HOUR(Time) AS Hour_Slot, 
+    COUNT(*) AS Total_Accidents
+FROM accident_data
+GROUP BY Urban_or_Rural_Area, HOUR(Time)
+ORDER BY Urban_or_Rural_Area, Total_Accidents DESC;
+
+-- 3. Find accident hotspots where more than 5 accidents occurred at the same latitude/longitude
+SELECT Latitude, Longitude, COUNT(*) AS Accident_Count
+FROM accident_data
+GROUP BY Latitude, Longitude
+HAVING COUNT(*) > 5;
+
+-- 4. Calculate cumulative accidents over time for trend analysis
+SELECT 
+    Year, 
+    Month, 
+    SUM(COUNT(*)) OVER (PARTITION BY Year ORDER BY Month) AS Cumulative_Accidents
+FROM accident_data
+GROUP BY Year, Month;
+
+-- 5. Detect anomalies: Find accidents where the number of casualties is significantly higher than the average
+SELECT *
+FROM accident_data
+WHERE Number_of_Casualties > (SELECT AVG(Number_of_Casualties) + 2 * STDDEV(Number_of_Casualties) FROM accident_data);
+
+-- 6. Find the police force handling the highest number of severe accidents
+SELECT Police_Force, COUNT(*) AS Severe_Accidents
+FROM accident_data
+WHERE Accident_Severity = 1
+GROUP BY Police_Force
+ORDER BY Severe_Accidents DESC
+LIMIT 1;
+
+-- 7. Find the top 3 vehicle types involved in accidents
+SELECT Vehicle_Type, COUNT(*) AS Accident_Count
+FROM accident_data
+GROUP BY Vehicle_Type
+ORDER BY Accident_Count DESC
+LIMIT 3;
+
+-- 8. Find the average number of vehicles involved per accident by road type
+SELECT Road_Type, AVG(Number_of_Vehicles) AS Avg_Vehicles
+FROM accident_data
+GROUP BY Road_Type;
+
+-- 9. Identify months with the highest accident rates in different weather conditions
+SELECT Month, Weather_Conditions, COUNT(*) AS Accident_Count
+FROM accident_data
+GROUP BY Month, Weather_Conditions
+ORDER BY Accident_Count DESC;
+
+-- 10. Find locations where accidents consistently occur every year
+SELECT Latitude, Longitude
+FROM accident_data
+GROUP BY Latitude, Longitude
+HAVING COUNT(DISTINCT Year) = (SELECT COUNT(DISTINCT Year) FROM accident_data);
